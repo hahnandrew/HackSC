@@ -31,7 +31,7 @@ def is_uid_allowed(uid):
 
 SECRET_TOKEN = os.environ.get("SECRET_TOKEN")
 
-user_token = st.experimental_get_query_params().get("user_token")
+user_token = st.experimental_get_query_params().get("user_token", [""])[0]  # Default to an empty string if not found
 
 # st.write("uid in allowed_uids", user_token in allowed_uids)
 st.write("User Token:", user_token)
