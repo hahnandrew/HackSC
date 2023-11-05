@@ -3,22 +3,14 @@
 import { logout, signInWithGoogle } from "../firebase/firebase";
 import { useAuth } from "../contexts/Authcontext";
 import Link from "next/link";
-// import { useRouter } from 'next/router';
-// import { useRouter } from 'next/navigation';
 import { usePathname } from 'next/navigation'
-// import { LoginPopup } from "./Loginpopup";
 
 
 
 export default function Navbar() {
   const { user } = useAuth();
-  // console.log(user)
-  // const user = true;
-  // const router = useRouter();
-  const pathname = usePathname()
-  // const pathname = "hell"
-  // console.log('asdfasf')
-  // console.log(user);
+  // const pathname = usePathname()
+
 
   return (
     <div className="flex p-2.5 items-end">

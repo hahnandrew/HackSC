@@ -1,8 +1,5 @@
 import { ReactNode } from 'react';
 import Navbar from '../components/navbar';
-// import '/Users/andrewjaehahn/github/HackSC/frontend/src/app/globals.css';
-// /Users/andrewjaehahn/github/HackSC/frontend/src/app/globals.css
-// import type { AppProps } from 'next/app';
 import './styles/globals.css';
 import React from 'react';
 import { AuthProvider } from '../contexts/Authcontext';

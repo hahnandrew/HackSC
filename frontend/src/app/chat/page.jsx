@@ -1,8 +1,6 @@
 "use client";
 import { useState, useEffect } from 'react';
-// import { useRouter } from 'next/navigation';
 import { useAuth } from '../../contexts/Authcontext';
-// import { signInWithGoogle } from "../../firebase/firebase"
 import Chatapp from "../../components/chat"
 
 const Loginpopup = ({ onClose, signInWithGoogleAndRedirect }) => {
