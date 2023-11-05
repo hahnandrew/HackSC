@@ -13,12 +13,14 @@ function PageComponent(hospital) {
   const [error, setError] = useState(null); // Add an error state
   const [selectedOption, setSelectedOption] = useState(null);
   const [isOptionSelected, setIsOptionSelected] = useState(false);
+  const [iframeUrl, setIframeUrl] = useState(null);
 
 
   const handleSelection = (option) => {
     setSelectedOption(option);
     setIsOptionSelected(true); // Set true when an option is selected
   };
+
 
   const isDeployedString = process.env.NEXT_PUBLIC_IS_DEPLOYED;
   const isDeployed = isDeployedString === 'True';
@@ -31,7 +33,18 @@ function PageComponent(hospital) {
   const currentDateTime = encodeURIComponent(new Date().toLocaleString());
   const { user } = useAuth();
 
-  const iframe = `${baseUrl}?embed=true&user_token=${user.uid}&phone=${user.phoneNumber}&email=${user.email}&name=${user.displayName}&datetime=${currentDateTime}&latlocation=${location.lat}&lnglocation=${location.lng}`;
+  useEffect(() => {
+    // Check if the selectedOption is not null
+    if (selectedOption) {
+      // Construct the URL with the selected option
+      const newIframeUrl = `${baseUrl}?embed=true&user_token=${encodeURIComponent(user.uid)}&phone=${encodeURIComponent(user.phoneNumber)}&email=${encodeURIComponent(user.email)}&name=${encodeURIComponent(user.displayName)}&datetime=${encodeURIComponent(currentDateTime)}&latlocation=${encodeURIComponent(location.lat)}&lnglocation=${encodeURIComponent(location.lng)}&hospital=${encodeURIComponent(selectedOption.label)}`;
+      // Update the iframe URL
+      setIframeUrl(newIframeUrl);
+    }
+  }, [selectedOption]);
+
+
+  // const iframe = `${baseUrl}?embed=true&user_token=${user.uid}&phone=${user.phoneNumber}&email=${user.email}&name=${user.displayName}&datetime=${currentDateTime}&latlocation=${location.lat}&lnglocation=${location.lng}$hospital=${selectedOption}`;
 
   useEffect(() => {
     const fetchUrgentCare = async () => {
@@ -93,14 +106,14 @@ function PageComponent(hospital) {
           customStyles={customStyles} // Pass custom styles if needed
         />
       )}
-      {isOptionSelected && (
+      {iframeUrl && (
         <iframe
-          src={iframe}
+          src={iframeUrl}
           title="Streamlit App"
           width="50%"
           height="800px"
           style={{ border: "none" }}
-        ></iframe>
+        />
       )}
     </div >
   );

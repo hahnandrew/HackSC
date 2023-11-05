@@ -6,6 +6,8 @@ import redis
 from json_to_pdf import *
 import json
 from json_to_pdf import generate_symptoms_pdf
+from datetime import datetime
+from urllib.parse import unquote
 
 load_dotenv()
 
@@ -55,8 +57,9 @@ user_name = st.experimental_get_query_params().get("name", [""])[0]
 date_and_time = st.experimental_get_query_params().get("datetime", [""])[0]
 lnglocation = st.experimental_get_query_params().get("lnglocation", [""])[0]
 latlocation = st.experimental_get_query_params().get("latlocation", [""])[0]
+hospital = st.experimental_get_query_params().get("hospital", [""])[0]
 
-st.write(user_token, phone_number, user_email, user_name, date_and_time, lnglocation, latlocation)
+# st.write(user_token, phone_number, user_email, user_name, date_and_time, lnglocation, latlocation, hospital)
 # `?embed=true&user_token=${user.uid}&phone=${user.phoneNumber}&email=${user.email}&name=${user.displayName}`;
 
 # st.write("uid in allowed_uids", user_token in allowed_uids)
@@ -67,7 +70,7 @@ st.write(user_token, phone_number, user_email, user_name, date_and_time, lngloca
 # st.error("Access denied")
 # st.stop()
 if user_token is not None and is_uid_allowed(user_token):
-    st.write("Access granted")
+    st.write("")
 else:
     st.error("Access denied")
     st.stop()
@@ -77,9 +80,11 @@ st.title("Chat")
 
 openai.api_key = st.secrets["OPENAI_API_KEY"]
 
+st.session_state.hospital_name = hospital
+
 # Check if 'hospital_name' is already in the session state, if not initialize with None
-if 'hospital_name' not in st.session_state:
-    st.session_state.hospital_name = "reliant urgent care"
+# if 'hospital_name' not in st.session_state:
+#     st.session_state.hospital_name = hospital
 
 # Ask the user for the hospital name if not already provided
 # if st.session_state.hospital_name is None:
@@ -188,12 +193,22 @@ if not st.session_state.chat_ended:
         if is_json(full_response):
             json_response = json.loads(full_response)
             if isinstance(json_response, list):
+                # Decode the URL-encoded string
+                decoded_datetime = unquote(date_and_time)
+
+                # Parse the string into a datetime object
+                # The format needs to match the format of your input string
+                date_object = datetime.strptime(decoded_datetime, '%m/%d/%Y, %I:%M:%S %p')
+
+                # Format the datetime object into a more readable string
+                # You can change the format according to your needs
+                pretty_date = date_object.strftime('%B %d, %Y at %I:%M:%S %p')
                 prepend_data_to_pdf = [
-                    {"hospital_name": st.session_state.hospital_name},
+                    {"Hospital Name": st.session_state.hospital_name},
                     {"Phone Number": phone_number},
                     {"Email": user_email},
                     {"Patient Name": user_name},
-                    {"Date and Time": date_and_time}
+                    {"Current Date": pretty_date}
                     ]
                 json_list = prepend_data_to_pdf + json_response 
 
