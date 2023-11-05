@@ -2,8 +2,7 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '../../contexts/Authcontext';
 import Chatapp from "../../components/chat"
-import LocationComponent from "../../components/Getlocation"
-// import { findUrgentCareAndWebsite } from "../../utils/googleMapsServices"
+import { findUrgentCareAndWebsite } from "../../utils/googleMapsServices"
 
 
 const Loginpopup = ({ onClose, signInWithGoogleAndRedirect }) => {
@@ -33,17 +32,14 @@ function PageComponent() {
   const { user, login } = useAuth();
   const [showLoginPopup, setShowLoginPopup] = useState(false);
 
+
+
   useEffect(() => {
     if (!user) {
       setShowLoginPopup(true);
     }
   }, [user]);
 
-
-
-  // useEffect(() => {
-  //   console.log(location)
-  // }, [location]);
 
   const signInWithGoogleAndRedirect = async (onClose) => {
     await login();
@@ -52,9 +48,8 @@ function PageComponent() {
 
   return (
     <div>
-      <LocationComponent />
       {user ? (
-        <Chatapp />
+        <Chatapp hospital={"hello"} />
       ) : (
         <>
           {showLoginPopup && (

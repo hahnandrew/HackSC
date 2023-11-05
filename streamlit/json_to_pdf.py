@@ -1,4 +1,5 @@
-# from fpdf import FPDF
+from fpdf import FPDF
+from io import BytesIO
 
 def generate_symptoms_pdf(data, filename="symptoms.pdf"):
     # Create a new FPDF object
@@ -27,4 +28,10 @@ def generate_symptoms_pdf(data, filename="symptoms.pdf"):
             pdf.ln(5)
 
     # Save the PDF file
-    pdf.output(filename)
+    # pdf.output(filename)
+    pdf_content = pdf.output(dest='S').encode('latin-1') 
+    pdf_output = BytesIO(pdf_content)
+    return pdf_output
+    pdf.output(pdf_output, 'F')
+    pdf_output.seek(0)  # move back to the beginning of the buffer
+    return pdf_output.getvalue()

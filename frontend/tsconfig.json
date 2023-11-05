@@ -27,7 +27,7 @@
     ".next/types/**/*.ts",
     "**/*.ts",
     "**/*.tsx",
-    "src/components/Getlocation.jsx"
+    "src/utils/getLocation.js"
   ],
   "exclude": [
     "node_modules"

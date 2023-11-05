@@ -11,3 +11,5 @@ node_modules/*
 sendgrid.env
 node_modules*
 sendgrid/*
+
+streamlit/sendgrid.py

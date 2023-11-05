@@ -3,6 +3,7 @@ import Navbar from '../components/navbar';
 import './styles/globals.css';
 import React from 'react';
 import { AuthProvider } from '../contexts/Authcontext';
+import { LocationProvider } from '../contexts/Locationcontext';
 
 type LayoutProps = {
   children: ReactNode;
@@ -14,8 +15,10 @@ const Layout = ({ children, showNavbar = true }: LayoutProps) => {
     <html lang="en">
       <body>
         <AuthProvider>
-          {showNavbar && <Navbar />}
-          {children}
+          <LocationProvider>
+            {showNavbar && <Navbar />}
+            {children}
+          </LocationProvider>
         </AuthProvider>
       </body>
     </html>

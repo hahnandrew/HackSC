@@ -5,15 +5,16 @@ from dotenv import load_dotenv
 import redis
 from json_to_pdf import *
 import json
+from json_to_pdf import generate_symptoms_pdf
 
 load_dotenv()
 
-st.markdown("""
-<style>
-    *, ::before, ::after {
-        box-sizing: inherit;
-    }
-</style>""", unsafe_allow_html=True)
+# st.markdown("""
+# <style>
+#     *, ::before, ::after {
+#         box-sizing: inherit;
+#     }
+# </style>""", unsafe_allow_html=True)
 
 # redis_host = os.getenv('REDIS_HOST')
 # redis_port = os.getenv('REDIS_PORT')
@@ -46,9 +47,17 @@ def is_uid_allowed(uid):
     # st.write("Allowed UIDs:", allowed_uids)
     return uid in allowed_uids
 
-SECRET_TOKEN = os.environ.get("SECRET_TOKEN")
 
 user_token = st.experimental_get_query_params().get("user_token", [""])[0]  # Default to an empty string if not found
+phone_number = st.experimental_get_query_params().get("phone", [""])[0]  # Default to an empty string if not found
+user_email = st.experimental_get_query_params().get("email", [""])[0]
+user_name = st.experimental_get_query_params().get("name", [""])[0]
+date_and_time = st.experimental_get_query_params().get("datetime", [""])[0]
+lnglocation = st.experimental_get_query_params().get("lnglocation", [""])[0]
+latlocation = st.experimental_get_query_params().get("latlocation", [""])[0]
+
+st.write(user_token, phone_number, user_email, user_name, date_and_time, lnglocation, latlocation)
+# `?embed=true&user_token=${user.uid}&phone=${user.phoneNumber}&email=${user.email}&name=${user.displayName}`;
 
 # st.write("uid in allowed_uids", user_token in allowed_uids)
 # st.write("User Token:", user_token)
@@ -70,18 +79,18 @@ openai.api_key = st.secrets["OPENAI_API_KEY"]
 
 # Check if 'hospital_name' is already in the session state, if not initialize with None
 if 'hospital_name' not in st.session_state:
-    st.session_state.hospital_name = None
+    st.session_state.hospital_name = "reliant urgent care"
 
 # Ask the user for the hospital name if not already provided
-if st.session_state.hospital_name is None:
-    hospital_name = st.text_input("Which hospital are you going to?")
-    if hospital_name:  # If the user has entered a name
-        st.session_state.hospital_name = hospital_name  # Store it in session state
-        st.write(f"Hospital name stored: {hospital_name}")  # Optional: Confirm the stored name
-    else:
-        st.stop()  # Stop execution until the user provides a hospital name
-else:
-    st.write(f"You are going to: {st.session_state.hospital_name}")  # Display the stored hospital nam
+# if st.session_state.hospital_name is None:
+#     hospital_name = st.text_input("Which hospital are you going to?")
+#     if hospital_name:  # If the user has entered a name
+#         st.session_state.hospital_name = hospital_name  # Store it in session state
+#         st.write(f"Hospital name stored: {hospital_name}")  # Optional: Confirm the stored name
+#     else:
+#         st.stop()  # Stop execution until the user provides a hospital name
+# else:
+#     st.write(f"You are going to: {st.session_state.hospital_name}")  # Display the stored hospital nam
 
 
 query = '''
@@ -179,7 +188,32 @@ if not st.session_state.chat_ended:
         if is_json(full_response):
             json_response = json.loads(full_response)
             if isinstance(json_response, list):
-                st.chat_input(disabled=not input)
+                prepend_data_to_pdf = [
+                    {hospital_name: st.session_state.hospital_name},
+                    {phone_number: phone_number},
+                    {user_email: user_email},
+                    {user_name: user_name},
+                    {date_and_time: date_and_time}
+                    ]
+                json_list = prepend_data_to_pdf + json_response 
+
+
+                # append here since we know its a list
+                pdf_bytes = generate_symptoms_pdf(json_list)
+                # add st.session_state.hospital_name
+                # phone_number, user_email, user_name, date_and_time
+
+
+                # user_token, lnglocation, latlocation
+                pdf_bytes_getval = pdf_bytes.getvalue()
+                st.download_button(
+                    label="Download Symptom Checklist PDF",
+                    data=pdf_bytes_getval,
+                    file_name="symptom_checklist.pdf",
+                    mime="application/pdf"
+                )
+                
+                # st.chat_input(disabled=not input)
                 st.session_state.chat_ended = True  # Set the flag to True when the formatted list is outputted
 
                 # Now display the Yes/No buttons
@@ -187,8 +221,31 @@ if not st.session_state.chat_ended:
                 st.session_state.no_pressed = st.button("No", key="no_button")
                 st.markdown("Is this accurate?")
 
+                # if st.session_state.yes_pressed or st.session_state.no_pressed:
                 if st.session_state.yes_pressed or st.session_state.no_pressed:
-                    handle_yes_no_response()
+                    if st.session_state.yes_pressed:
+                        st.write("You pressed Yes.")
+                        if not st.session_state.get("sent_to_hospital", False):  # Check if not already sent
+                            
+                            if st.button("Send to hospital"):
+
+                                st.markdown("Is this accurate?")
+                                st.write("You pressed Send.")
+                                # Update the flag
+                                st.session_state["sent_to_hospital"] = True
+                                # Now do the sending logic
+                            
+
+                        if st.session_state.get("sent_to_hospital", False):
+                            # Show a completed message
+                            st.write("You pressed Send.")
+                            st.text("Information sent to the hospital!")
+                        
+                        # Add further actions here based on the user pressing "Yes"
+                    elif st.session_state.no_pressed:
+                        st.text_input("What's not right with the list? Please provide more details:",
+                                key='correction_input',
+                                on_change=handle_correction)
 else:
     # The chat has ended, display the Yes/No buttons only
     st.session_state.yes_pressed = st.button("Yes", key="yes_button")
