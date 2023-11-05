@@ -5,7 +5,7 @@ import Navbar from '../components/navbar';
 // import type { AppProps } from 'next/app';
 import './styles/globals.css';
 import React from 'react';
-import { AuthProvider } from '../contexts/AuthContext';
+import { AuthProvider } from '../contexts/Authcontext';
 
 type LayoutProps = {
   children: ReactNode;

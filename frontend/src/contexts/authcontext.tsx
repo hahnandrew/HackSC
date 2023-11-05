@@ -3,12 +3,6 @@
 import { createContext, useState, ReactNode, useContext, useEffect, FC } from 'react';
 import { auth, signInWithGoogle, logout, fetchRole } from "../firebase/firebase";
 import { onAuthStateChanged, User } from "firebase/auth";
-// import { auth } from "../firebase/firebase";
-
-// type AuthUser = User | null;
-// type AuthData = { user?: AuthUser }
-
-// const AuthUserContext = createContext<AuthData | undefined>(undefined)
 
 
 type AuthContextType = {
@@ -22,16 +16,6 @@ const AuthContext = createContext<AuthContextType | null>(null);
 
 
 type FCProps = { children?: ReactNode }
-
-// export const AuthProvider: FC<FCProps> = ({ children }) => {
-//   const [user, setUser] = useState<AuthUser>(null);
-
-//   useEffect(() => (auth.onAuthStateChanged(
-//     setUser
-//   )), []);
-
-//   return (<AuthUserContext.Provider value={{ user }}>{children}</AuthUserContext.Provider>);
-// }
 
 type AuthProviderProps = {
   children: React.ReactNode;

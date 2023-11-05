@@ -1,7 +1,7 @@
 "use client"
 
 import { logout, signInWithGoogle } from "../firebase/firebase";
-import { useAuth } from "../contexts/AuthContext";
+import { useAuth } from "../contexts/Authcontext";
 import Link from "next/link";
 // import { useRouter } from 'next/router';
 // import { useRouter } from 'next/navigation';
