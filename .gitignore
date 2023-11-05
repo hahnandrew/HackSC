@@ -8,3 +8,5 @@ streamlit/hacksc/*
 environment.yml
 
 node_modules/*
+sendgrid.env
+node_modules*

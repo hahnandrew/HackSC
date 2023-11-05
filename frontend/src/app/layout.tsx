@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import Navbar from '../components/navbar';
+import Navbar from './components/navbar';
 import './styles/globals.css';
 import React from 'react';
 import { AuthProvider } from '../contexts/Authcontext';

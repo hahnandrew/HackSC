@@ -1,21 +1,25 @@
 "use client";
 
-import { useAuth } from "../contexts/Authcontext";
+import { useAuth } from "../../contexts/Authcontext";
+import env from "../../../next.config"
 
 function PageComponent() {
 
-  const baseUrl = process.env.IS_DEPLOYED === 'true'
+  const isDeployedString = process.env.NEXT_PUBLIC_IS_DEPLOYED;
+  const isDeployed = isDeployedString === 'True';
+
+  const baseUrl = isDeployed
     ? "https://hacksc-fgg6nccbxyuqmxm4ceujpz.streamlit.app"
     : "http://localhost:8501";
 
+
   const { user } = useAuth()
-  // console.log(user)
 
   const queryParams = `?embed=true&user_token=${user.uid}`;
   const iframeSrc = `${baseUrl}${queryParams}`;
 
   // console.log("User", user)
-  console.log("user.uid", user.uid)
+  // console.log("user.uid", user.uid)
   // const phone = user.phoneNumber
   // const displayName = user.displayName
 

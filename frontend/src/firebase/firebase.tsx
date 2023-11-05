@@ -8,6 +8,7 @@ import { FacebookAuthProvider, TwitterAuthProvider } from "firebase/auth";
 const firebaseConfig = JSON.parse(process.env.NEXT_PUBLIC_SERVICE_ACCOUNT!);
 // console.log(firebaseConfig)
 
+// console.log(process.env.NEXT_PUBLIC_IS_DEPLOYED!)
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
