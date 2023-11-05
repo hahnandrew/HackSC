@@ -189,7 +189,7 @@ if not st.session_state.chat_ended:
             json_response = json.loads(full_response)
             if isinstance(json_response, list):
                 prepend_data_to_pdf = [
-                    {hospital_name: st.session_state.hospital_name},
+                    {"hospital_name": st.session_state.hospital_name},
                     {phone_number: phone_number},
                     {user_email: user_email},
                     {user_name: user_name},
