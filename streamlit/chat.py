@@ -3,7 +3,7 @@ import streamlit as st
 import os
 from dotenv import load_dotenv
 import redis
-from scripts.json_to_pdf import *
+from json_to_pdf import *
 
 load_dotenv()
 
