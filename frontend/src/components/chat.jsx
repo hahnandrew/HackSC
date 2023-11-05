@@ -13,6 +13,9 @@ function PageComponent() {
   const queryParams = `?embed=true&user_token=${user.uid}`;
   const iframeSrc = `${baseUrl}${queryParams}`;
 
+  console.log("User", user)
+  console.log("user.uid", user.uid)
+
 
   return (
     <div className="flex w-full h-full justify-center items-center bg-gray-100 py-10">
