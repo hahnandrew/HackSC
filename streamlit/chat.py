@@ -212,24 +212,26 @@ if not st.session_state.chat_ended:
             json_response = json.loads(full_response)
             if isinstance(json_response, list):
                 # Decode the URL-encoded string
-                decoded_datetime = unquote(date_and_time)
+                # decoded_datetime = unquote(date_and_time)
 
                 # Parse the string into a datetime object
                 # The format needs to match the format of your input string
-                date_object = datetime.strptime(decoded_datetime, '%m/%d/%Y, %I:%M:%S %p')
+                # date_object = datetime.strptime(decoded_datetime, '%m/%d/%Y, %I:%M:%S %p')
 
                 # Format the datetime object into a more readable string
                 # You can change the format according to your needs
-                pretty_date = date_object.strftime('%B %d, %Y at %I:%M:%S %p')
+               #pretty_date = date_object.strftime('%B %d, %Y at %I:%M:%S %p')
                 prepend_data_to_pdf = [
-                    {"address", address},
-                    {"Hospital Name": st.session_state.hospital_name},
+                    #{"address", address},
+                    {"hospital_name": st.session_state.hospital_name},
                     {"Phone Number": phone_number},
                     {"Email": user_email},
-                    {"Patient Name": user_name},
-                    {"Current Date": pretty_date}
+                    {"Patient Name": user_name}
+                    # ,
+                    # {"Current Date": pretty_date}
                     ]
                 json_list = prepend_data_to_pdf + json_response 
+                #st.write(json_list)
 
 
                 # append here since we know its a list
