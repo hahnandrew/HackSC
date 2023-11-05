@@ -55,4 +55,3 @@ zipp==3.17.0
 sendgrid
 fpdf
 datetime
-urllib.parse
