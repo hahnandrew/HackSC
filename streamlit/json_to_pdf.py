@@ -1,4 +1,4 @@
-from fpdf2 import FPDF
+from fpdf import FPDF
 from io import BytesIO
 
 def generate_symptoms_pdf(json_list, filename='symptom.pdf'):
