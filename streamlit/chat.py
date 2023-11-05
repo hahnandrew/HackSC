@@ -76,7 +76,7 @@ else:
     st.stop()
 
 
-st.title("Chat")
+st.title("New Patient Intake Questionnaire")
 
 openai.api_key = st.secrets["OPENAI_API_KEY"]
 
