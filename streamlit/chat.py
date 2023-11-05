@@ -35,7 +35,7 @@ user_token = st.experimental_get_query_params().get("user_token", [""])[0]  # De
 
 # st.write("uid in allowed_uids", user_token in allowed_uids)
 # st.write("User Token:", user_token)
-# st.write("Allowed UIDs:", allowed_uids)
+st.write("Allowed UIDs:", allowed_uids)
 
 
 # st.error("Access denied")
