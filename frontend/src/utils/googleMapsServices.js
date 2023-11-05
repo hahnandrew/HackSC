@@ -61,7 +61,7 @@ export const findUrgentCare = async (location, searchTerm = "urgent care") => {
           const placesDetailsPromises = results.map(place => {
             const request = {
               placeId: place.place_id,
-              fields: ['name', 'website', 'opening_hours', 'geometry']
+              fields: ['name', 'website', 'opening_hours', 'geometry', 'formatted_address'] // Add 'formatted_address' to the fields array
             };
             return new Promise((resolveDetails, rejectDetails) => {
               service.getDetails(request, (details, statusDetails) => {
@@ -73,7 +73,8 @@ export const findUrgentCare = async (location, searchTerm = "urgent care") => {
                   resolveDetails({
                     name: details.name,
                     website: details.website,
-                    isOpen: details.opening_hours?.isOpen || false,
+                    address: details.formatted_address, // Add the address field here
+                    isOpen: details.opening_hours?.isOpen || false, // Use isOpen() if it's a function
                     distance: distance // Distance in meters
                   });
                 } else {
@@ -82,6 +83,7 @@ export const findUrgentCare = async (location, searchTerm = "urgent care") => {
               });
             });
           });
+
 
           try {
             // Wait for all the details to be fetched

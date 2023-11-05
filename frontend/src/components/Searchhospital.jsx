@@ -84,17 +84,7 @@ import React from 'react';
 import AsyncSelect from 'react-select/async';
 
 const Search = ({ hospitalOptions, selectedOption, setSelectedOption, customStyles }) => {
-  // const getHospitalOptions = () => {
-  //   const options = [];
-  //   if (hospitalOptions) {
-  //     Object.keys(hospitalOptions).forEach((key) => {
-  //       const hospital = hospitalOptions[key];
-  //       const { name, website, distance, isOpen } = hospital;
-  //       options.push({ value: { website, distance, isOpen }, label: name });
-  //     });
-  //   }
-  //   return options;
-  // };
+
   const getHospitalOptions = () => {
     const options = [];
     if (hospitalOptions) {

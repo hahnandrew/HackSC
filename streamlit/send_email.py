@@ -3,7 +3,7 @@ from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail, Attachment, FileContent, FileName, FileType, Disposition
 
 # Define your function here
-def send_email_with_attachment(pdf_bytes, recipients, patient, content, sender_email, time, address, hospital, filename='attachment.pdf'):
+def send_email_with_attachment(pdf_bytes, recipients, patient, sender_email, time, hospital, filename='PatientHealth.pdf'):
     encoded_file = base64.b64encode(pdf_bytes).decode()
 
     attachment = Attachment(
@@ -20,7 +20,7 @@ def send_email_with_attachment(pdf_bytes, recipients, patient, content, sender_e
     html_content = f"""
                     <html>
                     <body>
-                        <p>This PDF was generated at <strong>{time}</strong> and was sent to the <strong>{hospital}</strong> at <strong>{address}</strong>.</p>
+                        <p>This PDF was generated at <strong>{time}</strong> and was sent to the <strong>{hospital}</strong>.</p>
                         <p>Sender: <a href='mailto:{sender_email}'>{sender_email}</a></p>
                     </body>
                     </html>

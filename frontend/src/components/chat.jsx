@@ -5,6 +5,8 @@ import { useAuth } from "../contexts/Authcontext";
 import { useLocation } from "../contexts/Locationcontext";
 import { findUrgentCareAndQuery, findUrgentCare } from "../utils/googleMapsServices"
 import Search from "../components/Searchhospital"
+import scrapeEmail from "../utils/scrapeURL"
+import scraped from "../json/scraped.json"
 
 
 function PageComponent(hospital) {
@@ -14,9 +16,12 @@ function PageComponent(hospital) {
   const [selectedOption, setSelectedOption] = useState(null);
   const [isOptionSelected, setIsOptionSelected] = useState(false);
   const [iframeUrl, setIframeUrl] = useState(null);
+  const [website, setWebsite] = useState(null);
+  const [address, setAddress] = useState(null);
 
 
   const handleSelection = (option) => {
+    setWebsite(option.value.website)
     setSelectedOption(option);
     setIsOptionSelected(true); // Set true when an option is selected
   };
@@ -33,18 +38,31 @@ function PageComponent(hospital) {
   const currentDateTime = encodeURIComponent(new Date().toLocaleString());
   const { user } = useAuth();
 
+  function getValueByKey(json, key) {
+    if (json.hasOwnProperty(key)) {
+      return json[key];
+    } else {
+      // Return the first value from the JSON object
+      const firstKey = Object.keys(json)[0];
+      return json[firstKey];
+    }
+  }
+
+  // useEffect(() => {
+  //   console.log(webList)
+  // }, [webList]);
+
   useEffect(() => {
-    // Check if the selectedOption is not null
     if (selectedOption) {
-      // Construct the URL with the selected option
-      const newIframeUrl = `${baseUrl}?embed=true&user_token=${encodeURIComponent(user.uid)}&phone=${encodeURIComponent(user.phoneNumber)}&email=${encodeURIComponent(user.email)}&name=${encodeURIComponent(user.displayName)}&datetime=${encodeURIComponent(currentDateTime)}&latlocation=${encodeURIComponent(location.lat)}&lnglocation=${encodeURIComponent(location.lng)}&hospital=${encodeURIComponent(selectedOption.label)}`;
-      // Update the iframe URL
+      const weburl = selectedOption && selectedOption.value ? selectedOption.value.website : 'default_website_url';
+      const hospital_email = getValueByKey(scraped, weburl)
+      // console.log("address", address)
+      // console.log("selectedOption", selectedOption)
+      const newIframeUrl = `${baseUrl}?embed=true&user_token=${encodeURIComponent(user.uid)}&phone=${encodeURIComponent(user.phoneNumber)}&user_email=${encodeURIComponent(user.email)}&name=${encodeURIComponent(user.displayName)}&datetime=${encodeURIComponent(currentDateTime)}&latlocation=${encodeURIComponent(location.lat)}&lnglocation=${encodeURIComponent(location.lng)}&hospital=${encodeURIComponent(selectedOption.label)}&hospital_email=${hospital_email}&address=${address}`;
       setIframeUrl(newIframeUrl);
     }
   }, [selectedOption]);
 
-
-  // const iframe = `${baseUrl}?embed=true&user_token=${user.uid}&phone=${user.phoneNumber}&email=${user.email}&name=${user.displayName}&datetime=${currentDateTime}&latlocation=${location.lat}&lnglocation=${location.lng}$hospital=${selectedOption}`;
 
   useEffect(() => {
     const fetchUrgentCare = async () => {
@@ -52,6 +70,7 @@ function PageComponent(hospital) {
         setLoading(true); // Start loading
         const list = await findUrgentCare(location);
         setWebList(list);
+        setAddress(list[0].address)
         setLoading(false); // Finish loading
       } catch (e) {
         console.error(e);
@@ -67,11 +86,6 @@ function PageComponent(hospital) {
     // Render error state
     return <div>Error: {error.message}</div>;
   }
-
-
-  useEffect(() => {
-    console.log(webList)
-  }, [webList]);
 
 
   const customStyles = {

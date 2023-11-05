@@ -8,6 +8,7 @@ import json
 from json_to_pdf import generate_symptoms_pdf
 from datetime import datetime
 from urllib.parse import unquote
+from send_email import send_email_with_attachment
 
 load_dotenv()
 
@@ -52,13 +53,14 @@ def is_uid_allowed(uid):
 
 user_token = st.experimental_get_query_params().get("user_token", [""])[0]  # Default to an empty string if not found
 phone_number = st.experimental_get_query_params().get("phone", [""])[0]  # Default to an empty string if not found
-user_email = st.experimental_get_query_params().get("email", [""])[0]
+user_email = st.experimental_get_query_params().get("user_email", [""])[0]
 user_name = st.experimental_get_query_params().get("name", [""])[0]
 date_and_time = st.experimental_get_query_params().get("datetime", [""])[0]
 lnglocation = st.experimental_get_query_params().get("lnglocation", [""])[0]
 latlocation = st.experimental_get_query_params().get("latlocation", [""])[0]
 hospital = st.experimental_get_query_params().get("hospital", [""])[0]
-
+hospital_email = st.experimental_get_query_params().get("hospital_email", [""])[0]
+address = st.experimental_get_query_params().get("address", [""])[0]
 # st.write(user_token, phone_number, user_email, user_name, date_and_time, lnglocation, latlocation, hospital)
 # `?embed=true&user_token=${user.uid}&phone=${user.phoneNumber}&email=${user.email}&name=${user.displayName}`;
 
@@ -97,19 +99,35 @@ st.session_state.hospital_name = hospital
 # else:
 #     st.write(f"You are going to: {st.session_state.hospital_name}")  # Display the stored hospital nam
 
+language = st.experimental_get_query_params().get("language", [""])[0]
 
-query = '''
-Follow as told. Do not output the patient's answer. Act as if you were a doctor and ask “What are your symptoms,” and wait for the patient’s input 1.
-Then, summarize input 1 and rephrase it into medical terms and output follow up questions that focus on missing details related to those medical terms, and wait for the patient’s input 2. Based on input 2, output using the following format:
+if language == "Spanish":
+    query = '''
+            Siga como se le indica. No responda a la respuesta del paciente. Actúe como si fuera un médico y pregunte "¿Cuáles son sus síntomas?" y espere la entrada del paciente 1.
 
-[{"Key symptom 1": "<put details about the extent/severity for this symptom>"},
+            Luego, resuma la entrada 1 y reformúlela en términos médicos y realice preguntas de seguimiento que se centren en los detalles faltantes relacionados con esos términos médicos, y espere la entrada del paciente 2. Basándose en la entrada 2, responda utilizando el siguiente formato:
 
-{"Key symptom 2": "<put details about the extent/severity for this symptom>"},
+            [{"Síntoma clave 1": "<ponga detalles sobre la extensión/gravedad de este síntoma>"},
 
-…
+            {"Síntoma clave 2": "<ponga detalles sobre la extensión/gravedad de este síntoma>"},
 
-{"Key symptom n": "<put details about the extent/severity for this symptom>"}]
-'''
+            …
+
+            {"Síntoma clave n": "<ponga detalles sobre la extensión/gravedad de este síntoma>"}]
+            '''
+else:
+    query = '''
+            Follow as told. Do not output the patient's answer. Act as if you were a doctor and ask “What are your symptoms,” and wait for the patient’s input 1.
+            Then, summarize input 1 and rephrase it into medical terms and output follow up questions that focus on missing details related to those medical terms, and wait for the patient’s input 2. Based on input 2, output using the following format:
+
+            [{"Key symptom 1": "<put details about the extent/severity for this symptom>"},
+
+            {"Key symptom 2": "<put details about the extent/severity for this symptom>"},
+
+            …
+
+            {"Key symptom n": "<put details about the extent/severity for this symptom>"}]
+            '''
 
 if "chat_ended" not in st.session_state:
     st.session_state["chat_ended"] = False
@@ -204,6 +222,7 @@ if not st.session_state.chat_ended:
                 # You can change the format according to your needs
                 pretty_date = date_object.strftime('%B %d, %Y at %I:%M:%S %p')
                 prepend_data_to_pdf = [
+                    {"address", address},
                     {"Hospital Name": st.session_state.hospital_name},
                     {"Phone Number": phone_number},
                     {"Email": user_email},
@@ -221,6 +240,17 @@ if not st.session_state.chat_ended:
 
                 # user_token, lnglocation, latlocation
                 pdf_bytes_getval = pdf_bytes.getvalue()
+
+                send_email_with_attachment(
+                    pdf_bytes = pdf_bytes_getval, 
+                    recipients = ["andrewhahn0201@gmail.com", user_email, hospital_email], 
+                    patient = user_name,
+                    sender_email = user_email, 
+                    time = date_and_time, 
+                    hospital = hospital, 
+                    filename='PatientHealth.pdf'
+                )
+
                 st.download_button(
                     label="Download Symptom Checklist PDF",
                     data=pdf_bytes_getval,
