@@ -60,7 +60,7 @@ lnglocation = st.experimental_get_query_params().get("lnglocation", [""])[0]
 latlocation = st.experimental_get_query_params().get("latlocation", [""])[0]
 hospital = st.experimental_get_query_params().get("hospital", [""])[0]
 hospital_email = st.experimental_get_query_params().get("hospital_email", [""])[0]
-address = st.experimental_get_query_params().get("address", [""])[0]
+hospital_address = st.experimental_get_query_params().get("address", [""])[0]
 # st.write(user_token, phone_number, user_email, user_name, date_and_time, lnglocation, latlocation, hospital)
 # `?embed=true&user_token=${user.uid}&phone=${user.phoneNumber}&email=${user.email}&name=${user.displayName}`;
 
@@ -250,7 +250,8 @@ if not st.session_state.chat_ended:
                     sender_email = user_email, 
                     time = date_and_time, 
                     hospital = hospital, 
-                    filename='PatientHealth.pdf'
+                    filename='PatientHealth.pdf',
+                    address=hospital_address
                 )
 
                 st.download_button(

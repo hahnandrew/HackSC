@@ -1,4 +1,4 @@
-from fpdf import FPDF
+from fpdf2 import FPDF
 from io import BytesIO
 
 
@@ -97,8 +97,13 @@ def generate_symptoms_pdf(json_list, filename='symptom.pdf'):
                 pdf.multi_cell(0, 7, f"{v}", border=True)
                 pdf.ln(3)
 
+    # # Save the PDF file
+    # pdf.output(filename)
+    # pdf_content = pdf.output(dest='S').encode('latin-1') 
+    # pdf_output = BytesIO(pdf_content)
+    # return pdf_output
     # Save the PDF file
     pdf.output(filename)
-    pdf_content = pdf.output(dest='S').encode('latin-1') 
-    pdf_output = BytesIO(pdf_content)
+    pdf_content = pdf.output(dest='S')  # Get PDF content as bytes
+    pdf_output = BytesIO(pdf_content)   # Convert to BytesIO object
     return pdf_output

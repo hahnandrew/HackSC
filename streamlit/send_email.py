@@ -4,7 +4,7 @@ from sendgrid.helpers.mail import Mail, Attachment, FileContent, FileName, FileT
 import os
 
 # Define your function here
-def send_email_with_attachment(pdf_bytes, recipients, patient, sender_email, time, hospital, filename='PatientHealth.pdf'):
+def send_email_with_attachment(pdf_bytes, recipients, patient, sender_email, time, hospital, address, filename='PatientHealth.pdf'):
     encoded_file = base64.b64encode(pdf_bytes).decode()
 
     attachment = Attachment(
