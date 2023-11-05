@@ -38,8 +38,8 @@ user_token = st.experimental_get_query_params().get("user_token", [""])[0]  # De
 # st.write("Allowed UIDs:", allowed_uids)
 
 
-st.error("Access denied")
-st.stop()
+# st.error("Access denied")
+# st.stop()
 if user_token is not None and is_uid_allowed(user_token):
     st.write("Access granted")
 else:
