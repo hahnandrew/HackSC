@@ -4,7 +4,7 @@ import os
 from dotenv import load_dotenv
 import redis
 
-# load_dotenv()
+load_dotenv()
 
 # redis_host = os.getenv('REDIS_HOST')
 # redis_port = os.getenv('REDIS_PORT')
@@ -22,6 +22,27 @@ import redis
 
 # retrieved_user_id = r.get('user_id')
 # print(retrieved_user_id.decode('utf-8'))
+
+
+def is_uid_allowed(uid):
+    allowed_uids_env = os.getenv('ALLOWED_UIDS', '')
+    allowed_uids = allowed_uids_env.split(',')
+    return uid in allowed_uids
+
+SECRET_TOKEN = os.environ.get("SECRET_TOKEN")
+
+user_token = st.experimental_get_query_params().get("user_token")
+
+# st.write("uid in allowed_uids", user_token in allowed_uids)
+st.write("User Token:", user_token)
+# st.write("Allowed UIDs:", allowed_uids)
+
+if is_uid_allowed(user_token[0]):
+    st.write("Access granted")
+else:
+    st.error("Access denied")
+    st.stop()
+
 
 st.title("Chat")
 
