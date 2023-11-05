@@ -4,3 +4,5 @@ streamlit/.streamlit
 .env
 .streamlit/*
 .streamlit
+streamlit/hacksc/*
+environment.yml
