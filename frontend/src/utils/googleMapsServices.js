@@ -8,8 +8,10 @@ const loader = new Loader({
   libraries: ["places"]
 });
 
+// const api_key = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY
+
 export const findUrgentCare = async (location, searchTerm) => {
-  await loader.load();
+  await loader.importLibrary("places");
 
   const map = new google.maps.Map(document.createElement("div"), {
     center: location,
@@ -37,7 +39,9 @@ export const findUrgentCare = async (location, searchTerm) => {
 
 
 export const findUrgentCareAndWebsite = async (location, searchTerm) => {
-  await loader.load();
+  await loader.importLibrary("places");
+
+  // console.log("api_key", api_key)
 
   const map = new google.maps.Map(document.createElement("div"), {
     center: location,

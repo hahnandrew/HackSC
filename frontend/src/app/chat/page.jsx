@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { useAuth } from '../../contexts/Authcontext';
 import Chatapp from "../../components/chat"
 import LocationComponent from "../../components/Getlocation"
+// import { findUrgentCareAndWebsite } from "../../utils/googleMapsServices"
 
 
 const Loginpopup = ({ onClose, signInWithGoogleAndRedirect }) => {
@@ -37,6 +38,12 @@ function PageComponent() {
       setShowLoginPopup(true);
     }
   }, [user]);
+
+
+
+  // useEffect(() => {
+  //   console.log(location)
+  // }, [location]);
 
   const signInWithGoogleAndRedirect = async (onClose) => {
     await login();

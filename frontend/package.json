@@ -10,6 +10,9 @@
   },
   "dependencies": {
     "@googlemaps/google-maps-services-js": "^3.3.41",
+    "@googlemaps/js-api-loader": "^1.16.2",
+    "axios": "^1.6.0",
+    "cheerio": "^1.0.0-rc.12",
     "daisyui": "^3.9.4",
     "dotenv": "^16.3.1",
     "firebase": "^10.5.2",
