@@ -6,15 +6,18 @@ function PageComponent() {
 
   const baseUrl = process.env.IS_DEPLOYED === 'true'
     ? "https://hacksc-fgg6nccbxyuqmxm4ceujpz.streamlit.app"
-    : "http://localhost:8502";
+    : "http://localhost:8501";
 
   const { user } = useAuth()
+  // console.log(user)
 
   const queryParams = `?embed=true&user_token=${user.uid}`;
   const iframeSrc = `${baseUrl}${queryParams}`;
 
-  console.log("User", user)
+  // console.log("User", user)
   console.log("user.uid", user.uid)
+  // const phone = user.phoneNumber
+  // const displayName = user.displayName
 
 
   return (

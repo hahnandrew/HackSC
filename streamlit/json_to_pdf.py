@@ -1,4 +1,4 @@
-from fpdf import FPDF
+# from fpdf import FPDF
 
 def generate_symptoms_pdf(data, filename="symptoms.pdf"):
     # Create a new FPDF object

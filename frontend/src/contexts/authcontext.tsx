@@ -61,8 +61,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
 export const useAuth = () => {
   const context = useContext(AuthContext)
-  //   const context = useContext(AuthUserContext);
-  // if (!context) throw new Error("AuthUserContext has no value")
   if (!context) throw new Error("AuthContext has no value")
   return context
 }
