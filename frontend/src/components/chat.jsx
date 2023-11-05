@@ -1,7 +1,7 @@
 "use client";
 
-import { useAuth } from "../../contexts/Authcontext";
-import env from "../../../next.config"
+import { useAuth } from "../contexts/Authcontext";
+import env from "../../next.config"
 
 function PageComponent() {
 

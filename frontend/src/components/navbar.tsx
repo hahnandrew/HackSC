@@ -1,7 +1,7 @@
 "use client"
 
-import { logout, signInWithGoogle } from "../../firebase/firebase";
-import { useAuth } from "../../contexts/Authcontext";
+import { logout, signInWithGoogle } from "../firebase/firebase";
+import { useAuth } from "../contexts/Authcontext";
 import Link from "next/link";
 // import { usePathname } from 'next/navigation'
 

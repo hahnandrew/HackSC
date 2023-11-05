@@ -1,7 +1,9 @@
 "use client";
 import { useState, useEffect } from 'react';
 import { useAuth } from '../../contexts/Authcontext';
-import Chatapp from "../components/chat"
+import Chatapp from "../../components/chat"
+import LocationComponent from "../../components/Getlocation"
+
 
 const Loginpopup = ({ onClose, signInWithGoogleAndRedirect }) => {
 
@@ -43,6 +45,7 @@ function PageComponent() {
 
   return (
     <div>
+      <LocationComponent />
       {user ? (
         <Chatapp />
       ) : (
