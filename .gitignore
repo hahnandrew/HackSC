@@ -1,2 +1,6 @@
 streamlit/.streamlit/*
 streamlit/.streamlit
+.vercel
+.env
+.streamlit/*
+.streamlit
