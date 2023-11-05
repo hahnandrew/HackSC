@@ -37,7 +37,7 @@ user_token = st.experimental_get_query_params().get("user_token", [""])[0]  # De
 st.write("User Token:", user_token)
 # st.write("Allowed UIDs:", allowed_uids)
 
-if is_uid_allowed(user_token[0]):
+if user_token is not None and is_uid_allowed(user_token):
     st.write("Access granted")
 else:
     st.error("Access denied")
