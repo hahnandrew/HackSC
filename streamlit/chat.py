@@ -22,11 +22,17 @@ load_dotenv()
 
 # retrieved_user_id = r.get('user_id')
 # print(retrieved_user_id.decode('utf-8'))
+allowed_uids = st.secrets["ALLOWED_UIDS"]
+
+# def is_uid_allowed(uid):
+#     # allowed_uids_env = os.getenv('ALLOWED_UIDS', '')
+#     allowed_uids = allowed_uids_env.split(',')
+#     st.write("Allowed UIDs:", allowed_uids)
+#     return uid in allowed_uids
 
 
 def is_uid_allowed(uid):
-    allowed_uids_env = os.getenv('ALLOWED_UIDS', '')
-    allowed_uids = allowed_uids_env.split(',')
+    allowed_uids = st.secrets["ALLOWED_UIDS"]
     st.write("Allowed UIDs:", allowed_uids)
     return uid in allowed_uids
 
