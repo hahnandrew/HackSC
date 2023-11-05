@@ -1,6 +1,7 @@
 import base64
 from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail, Attachment, FileContent, FileName, FileType, Disposition
+import os
 
 # Define your function here
 def send_email_with_attachment(pdf_bytes, recipients, patient, sender_email, time, hospital, filename='PatientHealth.pdf'):
@@ -13,9 +14,8 @@ def send_email_with_attachment(pdf_bytes, recipients, patient, sender_email, tim
         Disposition('attachment')
     )
     
-    # Make sure to replace the API key with an environment variable or secure storage
-    # Never hardcode your API keys in your code
-    sg = SendGridAPIClient("your_sendgrid_api_key")
+    SENDGRID_API_KEY = os.getenv('SENDGRID_API_KEY')
+    sg = SendGridAPIClient(SENDGRID_API_KEY)
 
     html_content = f"""
                     <html>
