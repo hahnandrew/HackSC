@@ -3,7 +3,6 @@ export const Loginpopup: React.FC<{ onClose: () => void, signInWithGoogleAndRedi
   return (
     <div className="fixed inset-0 flex items-center justify-center z-50">
       <div className="relative bg-white p-8 rounded shadow-md text-center space-y-4">
-        {/* Added "X" button */}
         <button className="absolute top-2 right-2 text-[#5F5F5F] text-[24px] font-bold" onClick={onClose}>
           &times;
         </button>
@@ -12,7 +11,7 @@ export const Loginpopup: React.FC<{ onClose: () => void, signInWithGoogleAndRedi
           Login
         </button>
         <p>
-          Don't have an account?{' '}
+          Dont have an account?
           <button className="text-[#000000] font-bold" onClick={() => signInWithGoogleAndRedirect(onClose)}>
             Create one here
           </button>
