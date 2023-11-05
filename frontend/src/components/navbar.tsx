@@ -9,6 +9,7 @@ import { usePathname } from 'next/navigation'
 
 export default function Navbar() {
   const { user } = useAuth();
+  // console.log(user.uid)
   // const pathname = usePathname()
 
 
