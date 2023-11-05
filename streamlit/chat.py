@@ -34,7 +34,7 @@ allowed_uids = st.secrets["ALLOWED_UIDS"]
 
 def is_uid_allowed(uid):
     allowed_uids = st.secrets["ALLOWED_UIDS"]
-    st.write("Allowed UIDs:", allowed_uids)
+    # st.write("Allowed UIDs:", allowed_uids)
     return uid in allowed_uids
 
 SECRET_TOKEN = os.environ.get("SECRET_TOKEN")
