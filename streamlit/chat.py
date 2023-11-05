@@ -1,11 +1,32 @@
 import openai
 import streamlit as st
+import os
+from dotenv import load_dotenv
+import redis
+
+# load_dotenv()
+
+# redis_host = os.getenv('REDIS_HOST')
+# redis_port = os.getenv('REDIS_PORT')
+# redis_password = os.getenv('REDIS_PASSWORD')
+
+# r = redis.Redis(
+#   host=redis_host,
+#   port=redis_port,
+#   password=redis_password)
+
+# query_params = st.experimental_get_query_params()
+# user_token = query_params.get("user_token", [None])[0]
+
+# r.set('user_id', user_token)
+
+# retrieved_user_id = r.get('user_id')
+# print(retrieved_user_id.decode('utf-8'))
 
 st.title("Chat")
 
 openai.api_key = st.secrets["OPENAI_API_KEY"]
 
-#openai.api_key = "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"
 
 if "openai_model" not in st.session_state:
     st.session_state["openai_model"] = "gpt-3.5-turbo"
