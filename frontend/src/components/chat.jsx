@@ -16,7 +16,7 @@ function PageComponent() {
   return (
     <div className="flex w-full h-full justify-center items-center bg-gray-100 py-10">
       <iframe
-        src="https://hacksc-fgg6nccbxyuqmxm4ceujpz.streamlit.app/?user_token=${userToken}"
+        src="https://hacksc-fgg6nccbxyuqmxm4ceujpz.streamlit.app/?embed=true&user_token=${userToken}"
         // src={`http://localhost:8502/?user_token=${user.uid}`}
         title="Streamlit App"
         width="50%"
