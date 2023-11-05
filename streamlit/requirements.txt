@@ -53,6 +53,5 @@ validators==0.22.0
 yarl==1.9.2
 zipp==3.17.0
 sendgrid
-fpdf
 datetime
 fpdf2
