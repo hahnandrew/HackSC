@@ -27,11 +27,13 @@ function PageComponent(hospital) {
   };
 
 
-  const isDeployedString = process.env.NEXT_PUBLIC_IS_DEPLOYED;
-  const isDeployed = isDeployedString === 'True';
-  const baseUrl = isDeployed
-    ? "https://hacksc-fgg6nccbxyuqmxm4ceujpz.streamlit.app"
-    : "http://localhost:8501";
+  // const isDeployedString = process.env.NEXT_PUBLIC_IS_DEPLOYED;
+  // const isDeployed = isDeployedString === 'True';
+  // const baseUrl = isDeployed
+  //   ? "https://hacksc-fgg6nccbxyuqmxm4ceujpz.streamlit.app"
+  //   : "http://localhost:8501";
+
+  const baseUrl = "https://hacksc-fgg6nccbxyuqmxm4ceujpz.streamlit.app"
 
   const location = useLocation()
 
