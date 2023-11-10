@@ -33,7 +33,7 @@ function PageComponent(hospital) {
   //   ? "https://hacksc-fgg6nccbxyuqmxm4ceujpz.streamlit.app"
   //   : "http://localhost:8501";
 
-  const baseUrl = "https://hacksc-fgg6nccbxyuqmxm4ceujpz.streamlit.app"
+  const baseUrl = "http://localhost:8501"
 
   const location = useLocation()
 
@@ -124,7 +124,8 @@ function PageComponent(hospital) {
       )}
       {iframeUrl && (
         <iframe
-          src={iframeUrl}
+          // src={iframeUrl}
+          src="https://clean-slate-initiative.streamlit.app/?user_token=uid"
           title="Streamlit App"
           width="50%"
           height="800px"
